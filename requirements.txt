@@ -1,0 +1,11 @@
+tensorflow>=2.10
+opencv-python
+numpy
+pandas
+matplotlib
+scikit-learn
+seaborn
+tqdm
+albumentations
+moviepy
+

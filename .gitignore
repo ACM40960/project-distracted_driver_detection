@@ -1,0 +1,42 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.ipynb_checkpoints
+
+# Virtual environments
+.env/
+.venv/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebook metadata
+.ipynb_checkpoints/
+
+# Datasets
+*.zip
+*.h5
+*.keras
+
+
+# Model checkpoints
+checkpoints/
+models/
+*.pth
+*.pt
+*.ckpt
+
+# VSCode and Colab artifacts
+.vscode/
+*.log
+
+filtered_dataset/
+split_data/testing
+split_data/training
+split_data/validation
+full_dataset/
+raw_data/
+archive/imgs
+*.h5
+*.zip
