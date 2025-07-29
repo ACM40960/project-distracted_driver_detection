@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Results</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    .snapshot-gallery {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      margin: 20px auto;
+    }
+    .snapshot-gallery img {
+      width: 100%;        /* full width of screen */
+      height: auto;       /* preserve aspect ratio */
+      border-radius: 0;   /* no box corners */
+      box-shadow: none;   /* clean look */
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/logout">Logout</a>
+  </div>
+
+  <div class="snapshot-gallery">
+    {% for img in snapshots %}
+      {% if img and img|length > 0 %}
+        <img src="/{{ img }}" alt="Snapshot">
+      {% endif %}
+    {% endfor %}
+  </div>
+</body>
+</html>

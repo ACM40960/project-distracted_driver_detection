@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Driver Video Upload</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script>
+    function showLoading() {
+      document.getElementById('loading').style.display = 'flex';
+    }
+  </script>
+</head>
+<body>
+  <div class="navbar">
+    {% if session.get('logged_in') %}
+      <a href="/dashboard">Dashboard</a>
+      <a href="/logout">Logout</a>
+    {% else %}
+      <a href="/">Home</a>
+      <a href="/login">Employee Login</a>
+    {% endif %}
+  </div>
+
+  <div class="container">
+    {% if not session.get('logged_in') %}
+      <h2>📤 Report Unsafe Driving</h2>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="flash">{{ messages[0] }}</div>
+        {% endif %}
+      {% endwith %}
+      <form method="post" action="/submit" enctype="multipart/form-data" onsubmit="showLoading()">
+        <label>Driver ID:</label>
+        <input type="text" name="driver_id" required><br>
+        <label>Upload Video:</label>
+        <input type="file" name="video" required><br>
+        <button type="submit">Submit</button>
+      </form>
+    {% else %}
+      <h2>📊 Dashboard</h2>
+      <ul>
+        <li><a href="/video/1" onclick="showLoading()">Driver Video 1</a></li>
+        <li><a href="/video/2" onclick="showLoading()">Driver Video 2</a></li>
+        <li><a href="/video/3" onclick="showLoading()">Driver Video 3</a></li>
+      </ul>
+    {% endif %}
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading" class="loading-overlay">
+    <div class="loading-text">⏳ Video being analysed... Please wait</div>
+  </div>
+</body>
+</html>

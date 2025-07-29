@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script>
+    function showLoading() {
+      document.getElementById('loading').style.display = 'flex';
+    }
+  </script>
+</head>
+<body>
+  <div class="navbar">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/logout">Logout</a>
+  </div>
+
+  <div class="container">
+    <h2>🗂️ Uploaded Videos</h2>
+    {% if records %}
+      <ul>
+        {% for row in records %}
+          <li>
+            {{ row.DriverID }} — 
+            <a href="{{ url_for('analyze', filename=row.Filename) }}" onclick="showLoading()">
+              Analyze {{ row.Filename }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No records found.</p>
+    {% endif %}
+  </div>
+
+  <!-- ✅ Loading Overlay -->
+  <div id="loading" class="loading-overlay">
+    <div class="loading-text">⏳ Video being analysed... Please wait</div>
+  </div>
+</body>
+</html>
