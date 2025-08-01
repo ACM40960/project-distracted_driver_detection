@@ -1,147 +1,213 @@
-# Distracted Driver Detection using CNNs
+# 🧠 Distracted Driver Detection Using CNNs + Flask Web App
 
-This project aims to detect and classify distracted driving behavior from in-cabin images using Convolutional Neural Networks (CNNs). We trained a baseline model using Keras and compared its performance against a custom architecture, with real-time deployment plans through a video-to-image classification pipeline.
+This project identifies distracted driving behavior from in-cabin images using deep learning (CNNs) and deploys it via a Flask web interface. It includes:
+
+- A baseline CNN model
+- A custom enhanced CNN model
+- Real-time video frame classification pipeline
+- A working Flask web app with driver ID logging and result dashboard
 
 ---
 
-## 📌 Project Objectives
+## 📌 Objectives
 
-1. Build a baseline CNN model to classify driver behavior into three categories:
+1. Classify driver behavior into:
    - `safe_driving`
    - `using_phone`
    - `drinking`
 
-2. Address the class imbalance problem through proper augmentation and class weighting.
+2. Handle severe class imbalance using augmentation and `class_weight`.
 
-3. Improve model performance using a custom CNN architecture.
+3. Build and compare both:
+   - A baseline CNN
+   - A deeper custom CNN with L2 regularization and Batch Normalization
 
-4. Build a video-to-image inference pipeline to deploy the model in real-time driver monitoring scenarios.
+4. Analyze driving behavior from video using frame-by-frame classification.
 
----
-
-## 🧠 Dataset Overview
-
-The dataset used is from the [State Farm Distracted Driver Detection](https://www.kaggle.com/competitions/state-farm-distracted-driver-detection/data) competition on Kaggle.
-
-- Original data contains images classified into 10 distraction classes (`c0` to `c9`)
-- For our study, we filtered it into 3 categories: `safe_driving`, `using_phone`, and `drinking`
-- Total filtered images: ~14,000
+5. Build a Flask app to allow:
+   - Drivers to upload videos
+   - Employees to log in and monitor results
+   - Dashboard view of uploads and predictions
 
 ---
 
-## 🔄 Data Preprocessing
+## 🧠 Dataset
 
-- All images resized to **224x224**
-- Augmentation applied only to the **training set**
-- Validation and test sets were **untouched** to evaluate generalization
-- Split ratio:
-  - **Training**: 60%
-  - **Validation**: 20%
-  - **Testing**: 20%
-- CSVs and folder structures were created for each split
+We used the [State Farm Distracted Driver Detection](https://www.kaggle.com/competitions/state-farm-distracted-driver-detection) dataset and filtered it to only include:
+
+- `safe_driving` (from class c0)
+- `using_phone` (combined from c1–c4)
+- `drinking` (from class c6)
+
+**Filtered Image Count**: ~14,000  
+**Split Ratio**:
+- Train: 60%
+- Validation: 20%
+- Test: 20%
 
 ---
 
-## 📊 Handling Class Imbalance
+## 🔄 Preprocessing & Augmentation
 
-Our filtered dataset was imbalanced:
-
+- Images resized to 224x224
+- Applied augmentations only to training set:
+  - Zoom, flip, brightness, rotation
+- Used `flow_from_dataframe()` with CSV metadata
+- Generated class weights based on distribution:
+  
 | Class         | Count |
 |---------------|-------|
 | using_phone   | 9256  |
 | safe_driving  | 2489  |
 | drinking      | 2325  |
 
-We used `class_weight` in Keras to balance the loss contributions from each class during training.
+---
+
+## 🏗️ Models Built
+
+### ✅ Baseline CNN (Notebook: `02_baseline_cnn.ipynb`)
+- 4 Conv2D blocks
+- MaxPooling + Dropout
+- Flatten → Dense(128) → Dropout → Dense(3)
+- Trained with `categorical_crossentropy` and `Adam`
+- Metrics: Accuracy, Precision, Recall
+
+**Performance (w/ Class Weights):**
+- Accuracy: ~96%
+- Balanced precision/recall/F1 across all classes
 
 ---
 
-## 🏗️ Baseline Model
+### 🧪 Custom CNN (Notebook: `03_custom_cnn.ipynb`)
+- Deeper ConvNet (6 Conv2D layers)
+- BatchNormalization
+- L2 Regularization (`kernel_regularizer`)
+- Optional DropBlock (experimental)
+- Designed for better generalization
 
-A simple CNN was built with:
-
-- 2 convolutional layers
-- ReLU activations
-- Max pooling
-- Flatten → Dense(64) → Dropout(0.5) → Dense(3 with softmax)
-
-### Training Configuration
-
-- Optimizer: Adam
-- Loss: Categorical Crossentropy
-- Epochs: Up to 20 with EarlyStopping
-- Augmentations: rotation, zoom, brightness, flips
-
-### Performance (With Class Weights)
-
-| Metric         | Value |
-|----------------|-------|
-| Test Accuracy  | 96%   |
-| F1 (macro avg) | 96%   |
-| Precision      | 94% - 99% (per class)
-| Recall         | 95% - 98% (per class)
-
-The model achieved high accuracy with balanced performance across all classes after applying class weights.
+**Result:**
+- Slight improvement over baseline in validation accuracy and F1
+- Much better at avoiding overfitting
 
 ---
 
-## 🎥 Video-to-Image Pipeline (Planned)
-
-The next phase will involve:
-
-1. Uploading a video and extracting frames
-2. Predicting distraction class on each frame using the trained CNN
-3. Annotating frames with the prediction
-4. Merging frames back into an annotated video
-5. Returning both the driver ID and the output video
+## 🎥 Video-to-Image Pipeline (Notebook: `04_video_pipeline.ipynb`)
+1. Loads trained CNN model
+2. Extracts frames from video at fixed FPS
+3. Classifies each frame using CNN
+4. Tracks consistent offences (≥10 frames of same class)
+5. Saves annotated image snapshots and returns report
 
 ---
 
-## 📁 Folder Structure
+## 🌐 Flask Web Application (`app.py`)
+
+### ✨ Features:
+- Video upload form (`index.html`)
+- Driver ID submission
+- Upload logging (`submissions.xlsx`)
+- Employee login system (`login.html`)
+- Upload dashboard for employees (`dashboard.html`)
+- Analysis route runs the pipeline and renders annotated results (`result.html`)
+
+### 🔧 Key Routes:
+| Route             | Description                             |
+|------------------|-----------------------------------------|
+| `/`              | Home page with upload form              |
+| `/submit`        | Handle file + driver ID submission      |
+| `/login`         | Employee login                          |
+| `/dashboard`     | Admin dashboard showing logs            |
+| `/analyze/<vid>` | Execute pipeline and return results     |
+
+### 📁 Output:
+- Annotated snapshots saved in `static/combined_snapshots`
+- Results displayed in HTML
+
+---
+
+## 📂 Folder Structure
 
 ```
 distracted_driver_dataset/
 │
-├── filtered_dataset/ # All filtered images
-├── split_data/
-│ ├── training/
-│ ├── validation/
-│ ├── testing/
-│ ├── training_data.csv
-│ ├── validation_data.csv
-│ └── testing_data.csv
-├── full_dataset/ # Flattened raw images from original zip
-├── image_data.csv # Cleaned metadata
 ├── notebooks/
-│ ├── cnn_baseline_model.ipynb
-│ ├── cnn_custom_model.ipynb
-│ └── video_inference_pipeline.ipynb
-└── README.md
+│ ├── 01_data_cleaning.ipynb
+│ ├── 02_baseline_cnn.ipynb
+│ ├── 03_custom_cnn.ipynb
+│ └── 04_video_pipeline.ipynb
+│
+├── static/
+│ ├── uploads/
+│ ├── combined_snapshots/
+│ ├── style.css
+│
+├── templates/
+│ ├── index.html
+│ ├── login.html
+│ ├── dashboard.html
+│ └── result.html
+│
+├── filtered_dataset/
+├── full_dataset/
+├── split_data/
+│ ├── training_data.csv / val / test
+│
+├── raw_data/
+│ └── imgs/
+│
+├── baseline_model.keras
+├── best_custom_cnn_model.keras
+├── custom_cnn_model.keras
+├── image_data.csv
+├── app.py
+├── requirements.txt
+├── readme.md
 ```
-
 
 ---
 
-## ✅ Key Libraries Used
+## 🛠️ Tech Stack
 
-- TensorFlow / Keras
-- OpenCV
+- Python, TensorFlow/Keras
+- Flask (Web backend)
+- OpenCV (Video processing)
 - Pandas, NumPy
 - Matplotlib, Seaborn
 - scikit-learn
 
 ---
 
-## 🚧 Next Steps
+## 📈 Sample Results
 
-- Build and train a custom CNN architecture
-- Compare it with the baseline on performance and inference speed
-- Deploy the model in a full pipeline with video input and annotation
-- Optionally integrate with a Flask/Streamlit interface for demo purposes
+Annotated snapshots for detected offences:
+
+- `offence_using_phone_0s_to_5s_combined.jpg`
+- `offence_drinking_56s_to_59s_combined.jpg`
+
+Each image combines multiple offending frames with timestamps for clarity.
 
 ---
 
-## 📌 Authors
+## 💡 Key Learnings
+
+- Managing real-world class imbalance with proper weighting
+- Differences in performance between shallow and deep CNNs
+- Building a real-time classification pipeline
+- Integrating ML with Flask for deployment
+- Dynamic notebook execution with `nbclient` for reusability
+
+---
+
+## 🚧 Future Improvements
+
+- Add real-time webcam detection support
+- Allow multiple driver IDs in batch
+- Integrate frame annotation on actual video (.avi or .mp4)
+- Deploy to Heroku or render for demo access
+
+---
+
+## 👥 Authors
 
 - **Nishanth Chennagiri Keerthi**
 - **Ashish Mohamed Usman**
@@ -150,6 +216,15 @@ distracted_driver_dataset/
 
 ## 📬 Contact
 
-For collaboration or feedback, feel free to reach out via email or LinkedIn.
+Want to collaborate or have feedback? 
+Contact Details : 
+
+📧 nishanth.keerthi@ucdconnect.ie , nishanthkeerthi@gmail.com  
+🔗 [LinkedIn](https://www.linkedin.com/in/nishanth-keerthi)  
+🔗 [GitHub](https://github.com/nishanth-keerthi)
+
+📧 ashish.mohamedusman@ucdconnect.ie,ashishusmanmdk@gmail.com
+🔗 [LinkedIn](https://www.linkedin.com/in/ashish-mohamed-usman-5a0a851a5)  
+🔗 [GitHub](https://github.com/)
 
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/GhwTNp6x)
