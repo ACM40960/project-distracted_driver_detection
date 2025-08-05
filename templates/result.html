@@ -8,6 +8,8 @@
       margin: 0;
       padding: 0;
     }
+
+    /* styling image container to center items vertically */
     .snapshot-gallery {
       display: flex;
       flex-direction: column;
@@ -15,20 +17,24 @@
       gap: 40px;
       margin: 20px auto;
     }
+
+    /* styling images to span full width, with clean edges */
     .snapshot-gallery img {
-      width: 100%;        /* full width of screen */
-      height: auto;       /* preserve aspect ratio */
-      border-radius: 0;   /* no box corners */
-      box-shadow: none;   /* clean look */
+      width: 100%;        /* setting image to full width */
+      height: auto;       /* preserving image ratio */
+      border-radius: 0;   /* removing rounded corners */
+      box-shadow: none;   /* removing shadows for clean look */
     }
   </style>
 </head>
 <body>
+  <!-- creating navigation bar -->
   <div class="navbar">
     <a href="/dashboard">Dashboard</a>
     <a href="/logout">Logout</a>
   </div>
 
+  <!-- displaying all image snapshots if available -->
   <div class="snapshot-gallery">
     {% for img in snapshots %}
       {% if img and img|length > 0 %}

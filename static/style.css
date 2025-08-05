@@ -1,6 +1,7 @@
-/* Import Google Font */
+/* importing Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
+/* styling body with background image and font */
 body {
   margin: 0;
   padding: 0;
@@ -10,24 +11,24 @@ body {
   color: #333;
 }
 
+/* styling navigation bar */
 .navbar {
   width: 100%;
   background: rgba(0, 0, 0, 0.7);
   padding: 15px;
   text-align: center;
 }
-
 .navbar a {
   color: #fff;
   text-decoration: none;
   margin: 0 15px;
   font-weight: 600;
 }
-
 .navbar a:hover {
   color: #00c6ff;
 }
 
+/* styling container for centered content */
 .container {
   max-width: 600px;
   margin: 80px auto;
@@ -38,11 +39,13 @@ body {
   text-align: center;
 }
 
+/* styling headers */
 h1, h2, h3 {
   color: #222;
   margin-bottom: 20px;
 }
 
+/* styling buttons */
 button, .btn {
   display: inline-block;
   background: linear-gradient(90deg, #007bff, #00c6ff);
@@ -55,12 +58,12 @@ button, .btn {
   cursor: pointer;
   transition: transform 0.2s, background 0.3s;
 }
-
 button:hover, .btn:hover {
   transform: scale(1.05);
   background: linear-gradient(90deg, #0056b3, #0099cc);
 }
 
+/* styling flash message box */
 .flash {
   background: #d4edda;
   border-left: 6px solid #28a745;
@@ -71,11 +74,11 @@ button:hover, .btn:hover {
   font-weight: 500;
 }
 
+/* styling unordered list */
 ul {
   list-style: none;
   padding: 0;
 }
-
 ul li {
   background: #f8f9fa;
   margin: 8px 0;
@@ -83,38 +86,16 @@ ul li {
   border-radius: 6px;
   transition: background 0.2s;
 }
-
 ul li a {
   color: #007bff;
   text-decoration: none;
   font-weight: 500;
 }
-
 ul li:hover {
   background: #e9ecef;
 }
 
-.navbar {
-  width: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 15px;
-  text-align: center;
-}
-.navbar a {
-  color: #fff;
-  text-decoration: none;
-  margin: 0 15px;
-  font-weight: 600;
-}
-.navbar a:hover {
-  color: #00c6ff;
-}
-
-/* Dashboard List Styling */
-ul {
-  list-style: none;
-  padding: 0;
-}
+/* dashboard list styling */
 ul li {
   background: #f8f9fa;
   margin: 10px auto;
@@ -129,13 +110,8 @@ ul li:hover {
   background: #e9ecef;
   transform: scale(1.02);
 }
-ul li a {
-  color: #007bff;
-  text-decoration: none;
-  font-weight: 500;
-}
 
-/* Loading Screen */
+/* styling loading overlay */
 .loading-overlay {
   display: none;
   position: fixed;
@@ -151,12 +127,16 @@ ul li a {
   align-items: center;
   z-index: 9999;
 }
+
+/* styling loading text with pulse animation */
 .loading-text {
   background: rgba(0, 0, 0, 0.8);
   padding: 20px 40px;
   border-radius: 10px;
   animation: pulse 1.5s infinite;
 }
+
+/* defining pulse animation */
 @keyframes pulse {
   0% { opacity: 0.7; }
   50% { opacity: 1; }

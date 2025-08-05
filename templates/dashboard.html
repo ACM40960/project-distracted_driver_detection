@@ -4,22 +4,26 @@
   <title>Dashboard</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <script>
+    // showing loading overlay when analysis link is clicked
     function showLoading() {
       document.getElementById('loading').style.display = 'flex';
     }
   </script>
 </head>
 <body>
+  <!-- creating navigation bar -->
   <div class="navbar">
     <a href="/dashboard">Dashboard</a>
     <a href="/logout">Logout</a>
   </div>
 
+  <!-- creating container for uploaded videos -->
   <div class="container">
-    <h2>🗂️ Uploaded Videos</h2>
+    <h2>Uploaded Videos</h2>
     {% if records %}
       <ul>
         {% for row in records %}
+          <!-- listing each uploaded record with analyze link -->
           <li>
             {{ row.DriverID }} — 
             <a href="{{ url_for('analyze', filename=row.Filename) }}" onclick="showLoading()">
@@ -29,11 +33,12 @@
         {% endfor %}
       </ul>
     {% else %}
+      <!-- showing message if no records exist -->
       <p>No records found.</p>
     {% endif %}
   </div>
 
-  <!-- ✅ Loading Overlay -->
+  <!-- displaying loading overlay when video analysis starts -->
   <div id="loading" class="loading-overlay">
     <div class="loading-text">⏳ Video being analysed... Please wait</div>
   </div>

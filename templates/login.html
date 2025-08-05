@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head><title>Employee Login</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<head>
+  <title>Employee Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+  <!-- creating navigation bar -->
   <div class="navbar">
     <a href="/">Home</a>
   </div>
 
+  <!-- creating container for login form -->
   <div class="container">
-    <h2>👤 Employee Login</h2>
+    <h2>Employee Login</h2>
+    <!-- creating login form -->
     <form method="post">
+      <!-- adding username input -->
       <input name="username" placeholder="Username" required><br><br>
+      <!-- adding password input -->
       <input name="password" type="password" placeholder="Password" required><br><br>
+      <!-- adding login button -->
       <button type="submit">Login</button>
     </form>
   </div>

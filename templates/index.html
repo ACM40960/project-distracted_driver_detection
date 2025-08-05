@@ -4,12 +4,14 @@
   <title>Driver Video Upload</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <script>
+    // showing loading overlay when form or link is submitted
     function showLoading() {
       document.getElementById('loading').style.display = 'flex';
     }
   </script>
 </head>
 <body>
+  <!-- creating navigation bar -->
   <div class="navbar">
     {% if session.get('logged_in') %}
       <a href="/dashboard">Dashboard</a>
@@ -20,23 +22,29 @@
     {% endif %}
   </div>
 
+  <!-- creating container for content -->
   <div class="container">
     {% if not session.get('logged_in') %}
-      <h2>📤 Report Unsafe Driving</h2>
+      <!-- showing form for reporting unsafe driving -->
+      <h2>Report Unsafe Driving</h2>
       {% with messages = get_flashed_messages() %}
         {% if messages %}
+          <!-- displaying flash message -->
           <div class="flash">{{ messages[0] }}</div>
         {% endif %}
       {% endwith %}
       <form method="post" action="/submit" enctype="multipart/form-data" onsubmit="showLoading()">
+        <!-- input for driver ID -->
         <label>Driver ID:</label>
         <input type="text" name="driver_id" required><br>
+        <!-- input for uploading video -->
         <label>Upload Video:</label>
         <input type="file" name="video" required><br>
         <button type="submit">Submit</button>
       </form>
     {% else %}
-      <h2>📊 Dashboard</h2>
+      <!-- showing dashboard with uploaded videos -->
+      <h2>Dashboard</h2>
       <ul>
         <li><a href="/video/1" onclick="showLoading()">Driver Video 1</a></li>
         <li><a href="/video/2" onclick="showLoading()">Driver Video 2</a></li>
@@ -45,7 +53,7 @@
     {% endif %}
   </div>
 
-  <!-- Loading Overlay -->
+  <!-- displaying loading overlay during video analysis -->
   <div id="loading" class="loading-overlay">
     <div class="loading-text">⏳ Video being analysed... Please wait</div>
   </div>
