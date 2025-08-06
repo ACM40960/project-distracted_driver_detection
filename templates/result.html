@@ -4,26 +4,116 @@
   <title>Results</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <style>
+    /* styling base layout and background */
     body {
       margin: 0;
-      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: url("{{ url_for('static', filename='images/background.jpg') }}") no-repeat center center fixed;
+      background-size: cover;
     }
 
-    /* styling image container to center items vertically */
+    /* styling top navigation bar */
+    .navbar {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 20px;
+    }
+    .navbar a {
+      color: white;
+      margin-right: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* styling flag buttons section */
+    .flag-buttons {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .flag-buttons a {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 0 15px;
+      border-radius: 6px;
+      font-weight: bold;
+      text-decoration: none;
+      color: white;
+    }
+    .flag-buttons a:nth-child(2) {
+      background-color: #28a745; /* yes button */
+    }
+    .flag-buttons a:nth-child(3) {
+      background-color: #dc3545; /* no button */
+    }
+
+    /* styling gallery grid layout */
     .snapshot-gallery {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 40px;
-      margin: 20px auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      padding: 40px;
+      justify-content: center;
     }
 
-    /* styling images to span full width, with clean edges */
-    .snapshot-gallery img {
-      width: 100%;        /* setting image to full width */
-      height: auto;       /* preserving image ratio */
-      border-radius: 0;   /* removing rounded corners */
-      box-shadow: none;   /* removing shadows for clean look */
+    /* styling individual snapshot card */
+    .snapshot-card {
+      background: rgba(255,255,255,0.95);
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    /* styling title inside snapshot card */
+    .snapshot-card h3 {
+      margin-bottom: 15px;
+      font-size: 18px;
+      color: #222;
+    }
+
+    /* styling snapshot image */
+    .snapshot-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .snapshot-card img:hover {
+      transform: scale(1.03);
+    }
+
+    /* styling lightbox container */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.95);
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* activating lightbox display */
+    .lightbox.active {
+      display: flex;
+    }
+
+    /* styling image inside lightbox */
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 12px;
+    }
+
+    /* styling close button in lightbox */
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -31,16 +121,75 @@
   <!-- creating navigation bar -->
   <div class="navbar">
     <a href="/dashboard">Dashboard</a>
+    <a href="/flagged">Flagged Drivers</a>
     <a href="/logout">Logout</a>
   </div>
 
-  <!-- displaying all image snapshots if available -->
+
+  <!-- displaying flag question and buttons -->
+  <div class="flag-buttons">
+    <h3 style="color: black;">🚩 Flag this driver?</h3>
+    <a href="{{ url_for('flag', filename=filename, choice='yes', driver_id=driver_id) }}">Yes</a>
+    <a href="{{ url_for('flag', filename=filename, choice='no', driver_id=driver_id) }}">No</a>
+  </div>
+
+  <!-- displaying snapshot gallery -->
   <div class="snapshot-gallery">
-    {% for img in snapshots %}
-      {% if img and img|length > 0 %}
-        <img src="/{{ img }}" alt="Snapshot">
-      {% endif %}
+    {% for item, img in pairs %}
+      <div class="snapshot-card">
+        <!-- formatting filename nicely for display -->
+        <h3>{{ item.replace("_", " ").title() }}</h3>
+        <!-- adding image with click-to-enlarge -->
+        <img src="{{ url_for('static', filename=img) }}" alt="Snapshot" class="clickable" data-index="{{ loop.index0 }}">
+      </div>
     {% endfor %}
   </div>
+
+  <!-- displaying lightbox overlay for fullscreen viewing -->
+  <div id="lightbox" class="lightbox">
+    <span class="close-btn" onclick="closeLightbox()">&times;</span>
+    <img id="lightbox-img" src="" alt="Fullscreen Snapshot">
+  </div>
+
+  <script>
+    // initializing snapshot gallery elements
+    const snapshots = Array.from(document.querySelectorAll('.clickable'));
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    let currentIndex = 0;
+
+    // handling image click to show lightbox
+    snapshots.forEach((img, index) => {
+      img.addEventListener('click', () => {
+        currentIndex = index;
+        showImage();
+      });
+    });
+
+    // displaying selected image in lightbox
+    function showImage() {
+      lightboxImg.src = snapshots[currentIndex].src;
+      lightbox.classList.add('active');
+    }
+
+    // closing lightbox on click
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+    }
+
+    // enabling navigation with arrow keys and escape
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % snapshots.length;
+        showImage();
+      } else if (e.key === 'ArrowLeft') {
+        currentIndex = (currentIndex - 1 + snapshots.length) % snapshots.length;
+        showImage();
+      } else if (e.key === 'Escape') {
+        closeLightbox();
+      }
+    });
+  </script>
 </body>
 </html>

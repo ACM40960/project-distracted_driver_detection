@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flagged Drivers</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    /* styling unordered list layout */
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    /* styling each list item */
+    ul li {
+      background: #f8f9fa;
+      margin: 10px auto;
+      padding: 15px;
+      border-radius: 10px;
+      width: 80%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <!-- creating top navigation bar -->
+  <div class="navbar">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/flagged">Flagged Drivers</a>
+    <a href="/logout">Logout</a>
+  </div>
+
+
+  <!-- displaying flagged drivers content -->
+  <div class="container">
+    <h2>Flagged Drivers</h2>
+    {% if records %}
+      <!-- looping through each flagged record -->
+      <ul>
+        {% for row in records %}
+          <li>
+            {{ row.DriverID }} — {{ row.Filename }}  
+            <br><small>Flagged at: {{ row.FlaggedAt }}</small>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <!-- showing message if no flagged drivers exist -->
+      <p>No flagged drivers yet.</p>
+    {% endif %}
+  </div>
+</body>
+</html>
