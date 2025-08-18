@@ -1,18 +1,21 @@
-# Distracted Driver Detection Using Convolutional Neural Networks (CNNs) and Flask Web Application
+# Distracted Driver Detection
 
 ---
 
 ## 1) Introduction
-Distracted driving is a leading contributor to road accidents worldwide. With increasing availability of in-cabin cameras and affordable computation, computer vision methods can be applied to automatically monitor driver behaviour and issue alerts. This project implements a **deep learning-based framework** to classify driver behaviour into three categories — `safe driving`, `using phone`, and `drinking` — using **Convolutional Neural Networks (CNNs)**.  
+Distracted driving is a leading contributor to road accidents worldwide. With increasing availability of in-cabin cameras and affordable computation, computer vision methods can be applied to automatically monitor driver behaviour and issue alerts. This project implements a **deep learning-based framework** to classify driver behaviour into three categories : `safe driving`, `using phone`, and `drinking` using **Convolutional Neural Networks (CNNs)**.  
 A web-based application built with Flask demonstrates the deployment of this system, enabling users to upload videos, classify frames in real-time, and view structured results.
 
 ---
 
 ## 2) Motivation
-The motivation for this project is grounded in the urgent societal need to improve road safety through technology. Manual monitoring is not feasible at scale, and traditional rule-based systems cannot handle the variability of real-world conditions. Our goals include:  
-- Designing a machine learning pipeline that addresses class imbalance, a common issue in applied AI.  
-- Demonstrating the difference between baseline and custom CNN architectures for a real-world safety application.  
-- Building an end-to-end system that progresses from **raw data → trained models → video analysis → web deployment**, thereby replicating a full data science lifecycle.  
+The motivation for this project is grounded in the urgent societal need to improve road safety through technology. Manual monitoring is not feasible at scale, and traditional rule-based systems cannot handle the variability of real-world conditions. Our goals include: 
+
+- Contributing to **road safety** by detecting distracted driving behaviours that are among the leading causes of accidents worldwide.  
+- Using technology to create **positive change** by supporting safer driving practices and potentially reducing preventable collisions.  
+- Demonstrating how deep learning can be applied to a **real-world social problem**, moving beyond theory into noticeable impact.  
+- Building an end-to-end system that progresses from **raw data -> trained models -> video analysis -> web deployment**, thereby replicating a full data science lifecycle.  
+
 
 ---
 
@@ -21,7 +24,7 @@ This project applies **deep convolutional neural networks** to the *State Farm D
 
 We built two models:  
 1. A **baseline CNN** with two convolutional blocks.  
-2. A **custom CNN** with four convolutional layers, Batch Normalisation, and L2 regularisation.  
+2. A **custom CNN** with four convolutional layers, Batch Normalisation, Dropout and L2 regularisation.  
 
 The best model achieved **~98% test accuracy** with balanced precision, recall, and F1-score across classes. A **video-to-image pipeline** was developed to apply these models frame-by-frame, aggregating results into offence intervals. Finally, a **Flask web application** was implemented with user uploads, employee authentication, driver ID logging, and dashboard features.  
 
@@ -129,14 +132,15 @@ distracted_driver_dataset/
   <img src="readme_assets/augementation_sample_image.png" alt="Dataset Augmentation Batch Sample" title="Dataset Augmentation Batch Sample" />
 </p>
 <p align="center">Figure 3. Dataset Augmentation Batch Sample</p> 
+
 ---
 
 ## 8) Baseline Model and Results
 
 **Architecture (Keras):**
 - Input: 224 × 224 × 3 RGB image
-- Conv2D (32 filters, 3×3, ReLU) → MaxPooling (2×2)
-- Conv2D (64 filters, 3×3, ReLU) → MaxPooling (2×2)
+- Conv2D (32 filters, 3×3, ReLU) -> MaxPooling (2×2)
+- Conv2D (64 filters, 3×3, ReLU) -> MaxPooling (2×2)
 - Flatten
 - Dense (64 units, ReLU)
 - Dropout (0.5)
@@ -174,12 +178,12 @@ These observations motivated the design of a **custom CNN** with additional dept
 
 **Architecture (Keras):**
 - Input: 224 × 224 × 3 RGB image
-- Block 1: Conv2D (32 filters, 3×3, ReLU, same padding) → Batch Normalisation → MaxPooling (2×2)
-- Block 2: Conv2D (64 filters, 3×3, ReLU, same padding) → Batch Normalisation → MaxPooling (2×2)
-- Intermediate Layer: Conv2D (96 filters, 3×3, ReLU, same padding) → Batch Normalisation → MaxPooling (2×2)
-- Block 3: Conv2D (128 filters, 3×3, ReLU, same padding) → Batch Normalisation → MaxPooling (2×2)
+- Block 1: Conv2D (32 filters, 3×3, ReLU, same padding) -> Batch Normalisation -> MaxPooling (2×2)
+- Block 2: Conv2D (64 filters, 3×3, ReLU, same padding) -> Batch Normalisation -> MaxPooling (2×2)
+- Block 3: Conv2D (96 filters, 3×3, ReLU, same padding) -> Batch Normalisation -> MaxPooling (2×2)
+- Block 4: Conv2D (128 filters, 3×3, ReLU, same padding) -> Batch Normalisation -> MaxPooling (2×2)
 - Global Average Pooling
-- Dense (128 units, ReLU, L2 regularisation = 0.002) → Dropout (0.4)
+- Dense (128 units, ReLU, L2 regularisation = 0.002) -> Dropout (0.4)
 - Dense (3 units, Softmax)
 
 **Training Setup:**
@@ -293,50 +297,57 @@ To extend the image-based CNN to real-world driving scenarios, we designed a **f
 
 ## 11) Webpage and Functionalities  
 
-The **Flask web application (`app.py`)** demonstrates how the trained models can be deployed in a real-world interface. It provides functionalities for both **drivers** (uploading videos) and **employees** (reviewing logs and predictions).  
+The **Flask web application (`app.py`)** demonstrates how the trained models can be deployed in a real-world interface. It provides functionalities for both **passengers** (uploading videos) and **employees** (reviewing logs and predictions).  
 
-### ✨ Features  
-- **Upload Form:** A simple interface where drivers enter their ID and upload a video.  
+### Features  
+- **Upload Form:** A simple interface where passengers enter their ID and upload a video.  
 - **Authentication:** A login system for employees, ensuring that only authorised users can view submissions and results.  
 - **Dashboard:** An administrative view of all uploaded videos and associated driver IDs, with logs maintained in `submissions.xlsx`.  
-- **Analysis Route:** When a video is submitted, the pipeline is triggered to classify frames, annotate offences, and display results in `result.html`.  
+- **Analysis Route:** When a video is submitted, the pipeline is triggered to classify frames, annotate offences, and display results in `result.html`. 
+- **Flagged Drivers** – After reviewing the results, we can flag a driver, and the system records this in an elextronic report (`flagged_drivers.xlsx`) with the date and time of the flag.
 
-### 🔧 Key Routes  
+
+### Key Routes  
 | Route             | Description                                        |
 |-------------------|----------------------------------------------------|
 | `/`               | Home page with upload form (Driver ID + Video)     |
 | `/submit`         | Handles file upload and stores driver submission   |
 | `/login`          | Employee login for secure access                   |
 | `/dashboard`      | Dashboard listing all uploads and their metadata   |
-| `/analyze/<vid>`  | Executes the video pipeline and renders results    |  
+| `/analyze/<vid>`  | Executes the video pipeline and renders results    |
+|  `/flagged`       | Shows a list of all the flagged drivers with time stamp|
 
-The outputs of the application are visual and interactive. Drivers begin by uploading a video and providing their ID, as shown in the screenshot below.  
+The outputs of the application are visual and interactive. Passengers begin by uploading a video and providing the Driver ID, as shown in the screenshot below.  
 
 <p align="center">
   <img src="readme_assets/weboutput1.jpg" alt="Driver Upload Form" width="75%">
 </p>
-<p align="center">Figure 14. Driver upload form where a unique Driver ID and corresponding video are submitted for analysis</p>  
+<p align="center">Figure 14. Passenger upload form where a unique Driver ID and corresponding video are submitted for analysis</p>  
 
-Once the upload is complete, the system confirms the submission and begins processing. At this stage, employees see that the video is being analysed in real time.  
+Once the upload is complete, the system confirms the submission. Then an authorised employee can login and trigger a video analysis from the dashboard.At this stage, employees see that the video is being analysed in real time.  
 
 <p align="center">
   <img src="readme_assets/weboutput2.jpg" alt="Video Analysis Progress" width="75%">
 </p>
-<p align="center">Figure 15. Video analysis in progress — the backend pipeline is invoked to extract frames and classify driver behaviour</p>  
+<p align="center">Figure 15. Video analysis is in progress supported by backend pipeline being invoked to extract frames and classify driver behaviour</p>  
 
-After processing, the results are logged into the system. Employees can view a list of flagged drivers along with their corresponding video submissions, enabling easy tracking and record-keeping.  
+After processing, the results are logged into the system. Employees can view a list of flagged drivers along with their corresponding video submissions, enabling easy tracking and record-keeping. 
 
-<p align="center">
-  <img src="readme_assets/weboutput3.jpg" alt="Flagged Drivers Dashboard" width="75%">
-</p>
-<p align="center">Figure 16. Dashboard showing flagged drivers and their associated video files with timestamps</p>  
-
-Finally, employees can review the analysis results for each driver. The interface displays detected offences with prediction confidence, timestamps, and annotated snapshots from the video. Employees are also given the option to confirm or dismiss the flag, introducing a human-in-the-loop verification step.  
+Employees can review the analysis results for each driver. The interface displays detected offences with prediction confidence, timestamps, and annotated snapshots from the video. Employees are also given the option to confirm or dismiss the offence, introducing a human-in-the-loop verification step.  
 
 <p align="center">
   <img src="readme_assets/weboutput4.jpg" alt="Driver Offence Results Page" width="95%">
 </p>
-<p align="center">Figure 17. Results page showing predicted offences with confidence levels, annotated frames, and a manual verification option for employees</p>  
+<p align="center">Figure 16. Results page showing predicted offences with confidence levels, annotated frames, and a manual verification option for employees</p> 
+
+
+Finally, the employee can see the list of flagged drivers on the dashboard along with the Driver ID and the timestamp of when they were flagged. 
+<p align="center">
+  <img src="readme_assets/weboutput3.jpg" alt="Flagged Drivers Dashboard" width="75%">
+</p>
+<p align="center">Figure 17. Dashboard showing flagged drivers and their associated video files with timestamps</p>  
+
+  
 
 This end-to-end workflow transforms the CNN models into an operational safety tool, making predictions not only interpretable but also actionable in real-world driver monitoring.
   
@@ -345,7 +356,7 @@ This end-to-end workflow transforms the CNN models into an operational safety to
 
 The project is released under the **MIT License**, which permits reuse, modification, and distribution with attribution.  
 - **Code:** Freely available under MIT License for academic and research purposes.  
-- **Dataset:** The images used are derived from the *State Farm Distracted Driver Detection* dataset on Kaggle and are bound by Kaggle’s original licensing and usage terms. Redistribution of the raw dataset is not allowed.  
+- **Dataset:** The images used are derived from the *State Farm Distracted Driver Detection* dataset on Kaggle and are bound by Kaggle’s original licensing and usage terms.
 - **Models and Outputs:** Trained weights and model artefacts can be shared under the same conditions, provided the dataset licensing terms are respected.  
 
 ---
@@ -356,7 +367,7 @@ While the current system achieves high accuracy and reliable deployment, there a
 
 1. **Real-time monitoring:** Incorporating live webcam or in-vehicle camera streams for instantaneous offence detection.  
 2. **Extended classes:** Expanding the model to detect all 10 driver behaviours available in the original dataset (e.g., texting, reaching behind, adjusting the radio).  
-3. **Model compression:** Exploring lightweight architectures such as MobileNet or pruning/quantisation strategies to enable deployment on embedded devices.  
+3. **Model compression:** Exploring lightweight architectures such as MobileNet or pruning strategies to enable deployment on embedded devices.  
 4. **Direct video annotation:** Integrating frame predictions directly into the video output (.mp4 or .avi), rather than static snapshots, for seamless review.  
 5. **Cloud deployment:** Hosting the full system on platforms such as AWS, GCP, or Azure to enable large-scale monitoring and multi-user access.  
 6. **Human-in-the-loop feedback:** Incorporating employee feedback from the dashboard to refine predictions and continuously improve the model.  
@@ -370,14 +381,14 @@ These extensions would strengthen the applicability of the system in **fleet man
 For further collaboration, feedback, or inquiries, please reach out to the authors below:  
 
 **Nishanth Chennagiri Keerthi**  
-- 📧 Email: `nishanth.keerthi@ucdconnect.ie` | `nishanthkeerthi@gmail.com`  
+- 📧 Email: `nishanthkeerthi@gmail.com` |  `nishanth.keerthi@ucdconnect.ie` 
 - 🔗 GitHub: [nishanth-keerthi](https://github.com/nishanth-keerthi)  
 - 🌐 Portfolio: [Nishanth’s Data Portfolio](https://ordinary-molybdenum-d39.notion.site/Nishanth-s-Data-Portfolio-227c3247852b80c092d1f28d2f08e48d)  
 - 🌳 Linktree: [linktr.ee/nishanth_chennagiri_keerthi](https://linktr.ee/nishanth_chennagiri_keerthi)  
 
 **Ashish Mohamed Usman**  
-- 📧 Email: `ashish.mohamedusman@ucdconnect.ie` | `ashishusmanmdk@gmail.com`  
-- 🔗 GitHub: [ashishusmanmdk](https://github.com/ashishusmanmdk)  
+- 📧 Email: `ashishusmanmdk@gmail.com`  |`ashish.mohamedusman@ucdconnect.ie`
+- 🔗 GitHub: [AshishAsh1999](https://github.com/AshishAsh1999)  
 - 🌳 Linktree: [linktr.ee/ashish_mohamed_usman](https://linktr.ee/ashish_mohamed_usman)  
 
 ---
