@@ -73,7 +73,7 @@ def logout():
     session.pop('username', None)
     session.pop('logged_in', None)
 
-    # clearing previous flash messages (optional but useful)
+    # clearing previous flash messages 
     list(get_flashed_messages())
 
     flash("You have been logged out.")
