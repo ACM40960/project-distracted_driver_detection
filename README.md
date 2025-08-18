@@ -146,6 +146,12 @@ distracted_driver_dataset/
 - Dropout (0.5)
 - Dense (3 units, Softmax)
 
+<p align="center">
+  <img src="readme_assets/baseline_cnn_arch.png" alt="Architecture - Baseline Model" width="50%">
+  
+</p>
+<p align="center">Figure 4. Architecture of the Baseline CNN </p>
+
 **Training Setup:**
 - Optimiser: Adam  
 - Loss Function: categorical cross-entropy  
@@ -163,7 +169,7 @@ The **training and validation curves** (Figure 4) indicate consistent improvemen
   <img src="readme_assets/baseline_model_cm.png" alt="Confusion Matrix - Baseline Model" width="50%">
   <img src="readme_assets/baseline_model_graph.png" alt="Training and Validation Performance - Baseline Model" width="50%">
 </p>
-<p align="center">Figure 4. Predictive Performance Results of the Baseline CNN </p>  
+<p align="center">Figure 5. Predictive Performance Results of the Baseline CNN </p>  
 
 **Key Takeaways from the model:**  
 - Strengths: High accuracy, stable training, effective handling of core classes.  
@@ -199,7 +205,7 @@ These observations motivated the design of a **custom CNN** with additional dept
 <p align="center">
   <img src="readme_assets/custom_cnn_architecture_plotted.png" alt="Custom CNN Block Diagram" width="90%">
 </p>
-<p align="center">Figure 5. Detailed architecture of the Custom CNN</p>  
+<p align="center">Figure 6. Detailed architecture of the Custom CNN</p>  
 
 ---
 
@@ -210,14 +216,14 @@ The **accuracy curve** (Figure 6) shows rapid convergence, with training accurac
 <p align="center">
   <img src="readme_assets/custom_cnn_accuracy_graph.png" alt="Custom CNN Training Accuracy Curve" width="75%">
 </p>
-<p align="center">Figure 6. Accuracy per epoch for Custom CNN</p>  
+<p align="center">Figure 7. Accuracy per epoch for Custom CNN</p>  
 
 The **loss curves** (Figure 7) illustrate the effectiveness of the regularisation strategies. While the validation loss exhibited initial instability, it quickly converged and closely tracked training loss in later epochs, suggesting strong generalisation.  
 
 <p align="center">
   <img src="readme_assets/custom_cnn_loss_graph.png" alt="Custom CNN Loss Curve" width="75%">
 </p>
-<p align="center">Figure 7. Training and validation loss per epoch for Custom CNN</p>  
+<p align="center">Figure 8. Training and validation loss per epoch for Custom CNN</p>  
 
 ---
 
@@ -228,7 +234,7 @@ The **confusion matrix** (Figure 8) highlights the robustness of the custom mode
 <p align="center">
   <img src="readme_assets/custom_cnn_cm.png" alt="Confusion Matrix - Custom CNN" width="60%">
 </p>
-<p align="center">Figure 8. Confusion Matrix of the Custom CNN</p>  
+<p align="center">Figure 9. Confusion Matrix of the Custom CNN</p>  
 
 The **classification report** (Figure 9) quantifies performance:  
 - Overall accuracy: **99.3%**  
@@ -239,7 +245,7 @@ The **classification report** (Figure 9) quantifies performance:
 <p align="center">
   <img src="readme_assets/custom_cnn_result_table.png" alt="Classification Report - Custom CNN" width="55%">
 </p>
-<p align="center">Figure 9. Precision, recall, and F1 scores for Custom CNN</p>  
+<p align="center">Figure 10. Precision, recall, and F1 scores for Custom CNN</p>  
 
 ---
 
@@ -250,14 +256,14 @@ The custom CNN also demonstrated high confidence in predictions for real test sa
 <p align="center">
   <img src="readme_assets/custom_cnn_results.png" alt="Correctly Classified Examples - Custom CNN" width="95%">
 </p>
-<p align="center">Figure 10. Correctly classified examples from the test set</p>  
+<p align="center">Figure 11. Correctly classified examples from the test set</p>  
 
 To further validate predictions, we compared the **true vs. predicted class distributions** (Figure 11). The alignment between the two distributions confirms the model’s reliability across all categories.  
 
 <p align="center">
   <img src="readme_assets/custom_cnn_test_bar_graph.png" alt="True vs Predicted Class Distribution - Custom CNN" width="65%">
 </p>
-<p align="center">Figure 11. True vs predicted distributions for the Custom CNN</p>  
+<p align="center">Figure 12. True vs predicted distributions for the Custom CNN</p>  
 
 ---
 
@@ -283,12 +289,12 @@ To extend the image-based CNN to real-world driving scenarios, we designed a **f
 <p align="center">
   <img src="readme_assets/offence_using_phone_7s_to_10s_combined.jpg" alt="Phone Offence Example 1" width="95%">
 </p>  
-<p align="center">Figure 12. Detected offence: <i>using_phone</i> from 7.0s to 10.4s (duration: 3.4s)</p>  
+<p align="center">Figure 13. Detected offence: <i>using_phone</i> from 7.0s to 10.4s (duration: 3.4s)</p>  
 
 <p align="center">
   <img src="readme_assets/offence_using_phone_140s_to_146s_combined.jpg" alt="Phone Offence Example 2" width="95%">
 </p>  
-<p align="center">Figure 13. Detected offence: <i>using_phone</i> from 141.0s to 146.1s (duration: 5.2s)</p>  
+<p align="center">Figure 14. Detected offence: <i>using_phone</i> from 141.0s to 146.1s (duration: 5.2s)</p>  
 
 **Outcome:** The video pipeline enables the transition from static image classification to dynamic event detection, making the system more applicable to real-world monitoring scenarios.
  
@@ -322,14 +328,14 @@ The outputs of the application are visual and interactive. Passengers begin by u
 <p align="center">
   <img src="readme_assets/weboutput1.jpg" alt="Driver Upload Form" width="75%">
 </p>
-<p align="center">Figure 14. Passenger upload form where a unique Driver ID and corresponding video are submitted for analysis</p>  
+<p align="center">Figure 15. Passenger upload form where a unique Driver ID and corresponding video are submitted for analysis</p>  
 
 Once the upload is complete, the system confirms the submission. Then an authorised employee can login and trigger a video analysis from the dashboard.At this stage, employees see that the video is being analysed in real time.  
 
 <p align="center">
   <img src="readme_assets/weboutput2.jpg" alt="Video Analysis Progress" width="75%">
 </p>
-<p align="center">Figure 15. Video analysis is in progress supported by backend pipeline being invoked to extract frames and classify driver behaviour</p>  
+<p align="center">Figure 16. Video analysis is in progress supported by backend pipeline being invoked to extract frames and classify driver behaviour</p>  
 
 After processing, the results are logged into the system. Employees can view a list of flagged drivers along with their corresponding video submissions, enabling easy tracking and record-keeping. 
 
@@ -338,14 +344,14 @@ Employees can review the analysis results for each driver. The interface display
 <p align="center">
   <img src="readme_assets/weboutput4.jpg" alt="Driver Offence Results Page" width="95%">
 </p>
-<p align="center">Figure 16. Results page showing predicted offences with confidence levels, annotated frames, and a manual verification option for employees</p> 
+<p align="center">Figure 17. Results page showing predicted offences with confidence levels, annotated frames, and a manual verification option for employees</p> 
 
 
 Finally, the employee can see the list of flagged drivers on the dashboard along with the Driver ID and the timestamp of when they were flagged. 
 <p align="center">
   <img src="readme_assets/weboutput3.jpg" alt="Flagged Drivers Dashboard" width="75%">
 </p>
-<p align="center">Figure 17. Dashboard showing flagged drivers and their associated video files with timestamps</p>  
+<p align="center">Figure 18. Dashboard showing flagged drivers and their associated video files with timestamps</p>  
 
   
 
@@ -381,14 +387,36 @@ These extensions would strengthen the applicability of the system in **fleet man
 For further collaboration, feedback, or inquiries, please reach out to the authors below:  
 
 **Nishanth Chennagiri Keerthi**  
-- 📧 Email: `nishanthkeerthi@gmail.com` |  `nishanth.keerthi@ucdconnect.ie` 
+- 📧 Email: `nishanthkeerthi@gmail.com` | `nishanth.keerthi@ucdconnect.ie`  
+- 🔗 LinkedIn: [linkedin.com/in/nishanth-keerthi](https://www.linkedin.com/in/nishanth-keerthi/)  
 - 🔗 GitHub: [nishanth-keerthi](https://github.com/nishanth-keerthi)  
 - 🌐 Portfolio: [Nishanth’s Data Portfolio](https://ordinary-molybdenum-d39.notion.site/Nishanth-s-Data-Portfolio-227c3247852b80c092d1f28d2f08e48d)  
 - 🌳 Linktree: [linktr.ee/nishanth_chennagiri_keerthi](https://linktr.ee/nishanth_chennagiri_keerthi)  
 
 **Ashish Mohamed Usman**  
-- 📧 Email: `ashishusmanmdk@gmail.com`  |`ashish.mohamedusman@ucdconnect.ie`
+- 📧 Email: `ashishusmanmdk@gmail.com` | `ashish.mohamedusman@ucdconnect.ie`  
+- 🔗 LinkedIn: [linkedin.com/in/ashish-mohamed-usman-5a0a851a5](http://www.linkedin.com/in/ashish-mohamed-usman-5a0a851a5)  
 - 🔗 GitHub: [AshishAsh1999](https://github.com/AshishAsh1999)  
 - 🌳 Linktree: [linktr.ee/ashish_mohamed_usman](https://linktr.ee/ashish_mohamed_usman)  
+  
+
+
+---
+
+## 15) References  
+
+[1] J. Lei, Z. Ni, Z. Peng, H. Hu, J. Hong, X. Fang, C. Yi, C. Ren, and M. A. Wasaye, “An intelligent network framework for driver distraction monitoring based on RES-SE-CNN,” *Scientific Reports*, vol. 15, p. 91293, 2025. doi: https://doi.org/10.1038/s41598-025-91293-5  
+
+[2] S. Taamneh, P. Tsiamyrtzis, M. Dcosta, P. Buddharaju, et al., “A multimodal dataset for various forms of distracted driving,” *Scientific Data*, vol. 4, p. 170110, 2017. doi: https://doi.org/10.1038/sdata.2017.110  
+
+[3] D. Mayhew, R. Robertson, S. Brown, and W. Vanlaar, *Driver Distraction and Hands-Free Texting While Driving*. Traffic Injury Research Foundation (TIRF), 2013. [Online]. Available: https://tirf.ca/wp-content/uploads/2017/01/Driver_Distraction_and_Hands-Free_Texting_While_Driving_3.pdf  
+
+[4] *State Farm Distracted Driver Detection*, Kaggle Competition Dataset. [Online]. Available: https://www.kaggle.com/competitions/state-farm-distracted-driver-detection  
+
+[5] TensorFlow/Keras Documentation. [Online]. Available: https://www.tensorflow.org/api_docs/python/tf/keras  
+
+[6] OpenCV Documentation. [Online]. Available: https://docs.opencv.org/4.x/  
+
+[7] Flask Documentation. [Online]. Available: https://flask.palletsprojects.com/  
 
 ---
