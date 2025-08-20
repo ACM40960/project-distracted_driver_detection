@@ -1,6 +1,39 @@
 # Distracted Driver Detection
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/TensorFlow-2.x-orange?logo=tensorflow&logoColor=white" />
+  <img src="https://img.shields.io/badge/Keras-Deep%20Learning-D00000?logo=keras&logoColor=white" />
+  <img src="https://img.shields.io/badge/OpenCV-Computer%20Vision-5C3EE8?logo=opencv&logoColor=white" />
+  <img src="https://img.shields.io/badge/Flask-Web%20App-000000?logo=flask&logoColor=white" />
+  <img src="https://img.shields.io/badge/License-CC%20BY--NC%204.0-green?logo=creativecommons&logoColor=white" />
+</p>
+
+
 ---
+
+## Table of Contents
+
+- [1) Introduction](#1-introduction)  
+- [2) Motivation](#2-motivation)  
+- [3) Abstract](#3-abstract)  
+- [4) Dataset](#4-dataset)  
+- [5) Objectives](#5-objectives)  
+- [6) Folder Structure](#6-folder-structure)  
+- [7) Dataset Cleaning and Preprocessing](#7-dataset-cleaning-and-preprocessing)  
+- [8) Baseline Model and Results](#8-baseline-model-and-results)  
+- [9) Custom CNN Model and Results](#9-custom-cnn-model-and-results)  
+- [10) Video Pipeline](#10-video-pipeline)  
+- [11) Webpage and Functionalities](#11-webpage-and-functionalities)  
+- [12) Further Scope and Improvements](#12-further-scope-and-improvements)  
+- [13) Licenses](#13-licenses)  
+- [14) Steps to Replicate Project](#14-steps-to-replicate-project)  
+- [15) Contact Us](#15-contact-us)  
+- [16) References](#16-references)  
+
+---
+  
+
 
 ## 1) Introduction
 Distracted driving is a leading contributor to road accidents worldwide. With increasing availability of in-cabin cameras and affordable computation, computer vision methods can be applied to automatically monitor driver behaviour and issue alerts. This project implements a **deep learning-based framework** to classify driver behaviour into three categories : `safe driving`, `using phone`, and `drinking` using **Convolutional Neural Networks (CNNs)**.  
@@ -359,7 +392,24 @@ Finally, the employee can see the list of flagged drivers on the dashboard along
 This end-to-end workflow transforms the CNN models into an operational safety tool, making predictions not only interpretable but also actionable in real-world driver monitoring.
   
 
-## 12) Licenses  
+---
+
+## 12) Further Scope and Improvements  
+
+While the current system achieves high accuracy and reliable deployment, there are several directions for extending this work:  
+
+1. **Real-time monitoring:** Incorporating live webcam or in-vehicle camera streams for instantaneous offence detection.  
+2. **Extended classes:** Expanding the model to detect all 10 driver behaviours available in the original dataset (e.g., texting, reaching behind, adjusting the radio).  
+3. **Model compression:** Exploring lightweight architectures such as MobileNet or pruning strategies to enable deployment on embedded devices.  
+4. **Direct video annotation:** Integrating frame predictions directly into the video output (.mp4 or .avi), rather than static snapshots, for seamless review.  
+5. **Cloud deployment:** Hosting the full system on platforms such as AWS, GCP, or Azure to enable large-scale monitoring and multi-user access.  
+6. **Human-in-the-loop feedback:** Incorporating employee feedback from the dashboard to refine predictions and continuously improve the model.  
+
+These extensions would strengthen the applicability of the system in **fleet management, ride-sharing services, and road safety enforcement**, aligning the project with broader research and industrial use cases.
+
+---
+
+## 13) Licenses  
 
 - **Code & Models:**  
   This project’s source code, trained models, and outputs are released under the  
@@ -391,22 +441,80 @@ This end-to-end workflow transforms the CNN models into an operational safety to
   Redistribution of raw dataset files is not permitted.
 ---
 
-## 13) Further Scope and Improvements  
-
-While the current system achieves high accuracy and reliable deployment, there are several directions for extending this work:  
-
-1. **Real-time monitoring:** Incorporating live webcam or in-vehicle camera streams for instantaneous offence detection.  
-2. **Extended classes:** Expanding the model to detect all 10 driver behaviours available in the original dataset (e.g., texting, reaching behind, adjusting the radio).  
-3. **Model compression:** Exploring lightweight architectures such as MobileNet or pruning strategies to enable deployment on embedded devices.  
-4. **Direct video annotation:** Integrating frame predictions directly into the video output (.mp4 or .avi), rather than static snapshots, for seamless review.  
-5. **Cloud deployment:** Hosting the full system on platforms such as AWS, GCP, or Azure to enable large-scale monitoring and multi-user access.  
-6. **Human-in-the-loop feedback:** Incorporating employee feedback from the dashboard to refine predictions and continuously improve the model.  
-
-These extensions would strengthen the applicability of the system in **fleet management, ride-sharing services, and road safety enforcement**, aligning the project with broader research and industrial use cases.  
+  
 
 ---
 
-## 14) Contact Us  
+## 14) Steps to Replicate Project
+
+Follow the steps below to set up and run the distracted driver detection project on your system.
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/ACM40960/project-distracted_driver_detection.git
+cd project-distracted_driver_detection
+```
+
+### 2. Set Up Virtual Environment
+It is recommended to use a virtual environment to manage dependencies.
+```bash
+python -m venv venv
+source venv/bin/activate       # On Linux/Mac
+venv\Scripts\activate          # On Windows
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Download the Dataset
+- Download the [State Farm Distracted Driver Detection](https://www.kaggle.com/competitions/state-farm-distracted-driver-detection/data) dataset from Kaggle.
+- Place the dataset directly inside the **project root folder**.
+- The root folder should then contain both the dataset and the `notebooks/` directory.
+
+### 5. Preprocess the Dataset
+Run the Jupyter notebook to clean and prepare the dataset:
+```bash
+jupyter notebook notebooks/01_data_cleaning.ipynb
+```
+This will:
+- Filter classes to `safe_driving`, `using_phone`, and `drinking`.
+- Split data into training, validation, and testing sets.
+- Save processed metadata CSVs (`training_data.csv`, `validation_data.csv`, `testing_data.csv`) in the `split_data/` folder.
+
+### 6. Train the Models
+Run the notebooks to train both the baseline and custom CNNs:
+```bash
+jupyter notebook notebooks/02_baseline_cnn.ipynb
+jupyter notebook notebooks/03_custom_cnn.ipynb
+```
+This will produce `.keras` model files:
+- `baseline_model.keras`
+- `best_custom_cnn_model.keras`
+
+### 7. Test Video Pipeline
+Run the video pipeline notebook to analyze sample videos frame-by-frame:
+```bash
+jupyter notebook notebooks/04_video_pipeline.ipynb
+```
+
+### 8. Run the Flask Web Application
+Start the web app to upload and analyze driver videos.
+```bash
+python app.py
+```
+The app will run on `http://127.0.0.1:5000/` by default.
+- Passengers can upload videos with their Driver ID.
+- Employees can log in, analyze submissions, and flag drivers.
+
+### 9. Review Outputs
+- Analysis results and flagged drivers are saved in `.xlsx` logs (`submissions.xlsx`, `flagged_drivers.xlsx`).
+- Annotated snapshots are stored in `static/combined_snapshots/`.
+- Model outputs are logged for further inspection.
+
+
+## 15) Contact Us  
 
 For further collaboration, feedback, or inquiries, please reach out to the authors below:  
 
@@ -427,7 +535,7 @@ For further collaboration, feedback, or inquiries, please reach out to the autho
 
 ---
 
-## 15) References  
+## 16) References  
 
 [1] J. Lei, Z. Ni, Z. Peng, H. Hu, J. Hong, X. Fang, C. Yi, C. Ren, and M. A. Wasaye, “An intelligent network framework for driver distraction monitoring based on RES-SE-CNN,” *Scientific Reports*, vol. 15, p. 91293, 2025. doi: https://doi.org/10.1038/s41598-025-91293-5  
 
