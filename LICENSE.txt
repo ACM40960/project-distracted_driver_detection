@@ -1,0 +1,21 @@
+Custom Modified Creative Commons Attribution–NonCommercial 4.0 (CC BY-NC 4.0)  
+with Additional Restriction
+
+Copyright (c) 2025 Nishanth Chennagiri Keerthi and Ashish Mohamed Usman  
+All rights reserved.
+
+Permissions:
+- Academic and research use is permitted without prior approval, provided that proper credit is given to the authors:  
+  "Nishanth Chennagiri Keerthi and Ashish Mohamed Usman (2025). Distracted Driver Detection Project."
+- You may share and adapt this work for academic and research purposes only.
+
+Restrictions:
+- NonCommercial — You may not use the material for commercial purposes.  
+- Any use outside of academic or research purposes (including redistribution, derivative works, or integration into proprietary/profit systems) requires explicit written permission from the authors.  
+- Redistribution of the dataset is not allowed, as it remains bound by Kaggle’s original licensing and usage terms.
+
+Full license text of CC BY-NC 4.0: https://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+For permissions, contact:
+- Nishanth Chennagiri Keerthi (nishanthkeerthi@gmail.com)  
+- Ashish Mohamed Usman (ashishusmanmdk@gmail.com)

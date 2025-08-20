@@ -31,9 +31,10 @@ The best model achieved **~98% test accuracy** with balanced precision, recall, 
 ---
 
 ## 4) Dataset
-- **Source:** [State Farm Distracted Driver Detection : Drive Link](https://drive.google.com/file/d/1dGWHooahe5qtzGRhn20zAL-qRLR0FXUw/view?usp=sharing)
+- **Source:** [State Farm Distracted Driver Detection](https://www.kaggle.com/competitions/state-farm-distracted-driver-detection)
 - **Dataset Size:** 4.6GB
-- *Note : Dataset not uploaded on Github due to limitations of size. Please access it using the Drive link above.* 
+
+*Note : Download the dataset from kaggle into the root folder and run `notebooks/01_data_cleaning.ipynb` to replicate our project dataset structure.* 
 - **Classes Used:**  
   - *safe_driving* (c0)  
   - *using_phone* (merged c1–c4)  
@@ -360,11 +361,34 @@ This end-to-end workflow transforms the CNN models into an operational safety to
 
 ## 12) Licenses  
 
-The project is released under the **MIT License**, which permits reuse, modification, and distribution with attribution.  
-- **Code:** Freely available under MIT License for academic and research purposes.  
-- **Dataset:** The images used are derived from the *State Farm Distracted Driver Detection* dataset on Kaggle and are bound by Kaggle’s original licensing and usage terms.
-- **Models and Outputs:** Trained weights and model artefacts can be shared under the same conditions, provided the dataset licensing terms are respected.  
+- **Code & Models:**  
+  This project’s source code, trained models, and outputs are released under the  
+  [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/) License.  
+  You are free to use, modify, and share this work for **academic and research purposes only**, with proper attribution.  
+  Commercial use is strictly prohibited.
 
+
+- **Citation**
+
+  If you use this project in your academic or research work, please cite it as follows:
+
+  **Plain-text citation:**  
+  Nishanth Chennagiri Keerthi and Ashish Mohamed Usman. *Distracted Driver Detection Project*. 2025. Available at: [GitHub Repository](https://github.com/ACM40960/project-distracted_driver_detection)
+
+  **BibTeX citation:**  
+  ```bibtex
+  @misc{keerthi_usman_2025_distracted_driver,
+    author       = {Nishanth Chennagiri Keerthi and Ashish Mohamed Usman},
+    title        = {Distracted Driver Detection Project},
+    year         = {2025},
+    howpublished = {\url{https://github.com/ACM40960/project-distracted_driver_detection}},
+    note         = {Released under a modified CC BY-NC 4.0 License for academic and research use only}
+  }
+  ```
+
+- **Dataset:**  
+  The images are derived from the [State Farm Distracted Driver Detection](https://www.kaggle.com/competitions/state-farm-distracted-driver-detection/data) dataset on Kaggle and remain subject to Kaggle’s original licensing and usage terms.  
+  Redistribution of raw dataset files is not permitted.
 ---
 
 ## 13) Further Scope and Improvements  
