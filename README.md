@@ -1,4 +1,4 @@
-# In-<img width="2000" height="600" alt="in_cab_driver_text_gradient" src="https://github.com/user-attachments/assets/493bb5de-7a04-4b99-880c-4e6502e02d1b" />
+# <img width="2000" height="600" alt="in_cab_driver_text_gradient" src="https://github.com/user-attachments/assets/493bb5de-7a04-4b99-880c-4e6502e02d1b" />
 
 
 <p align="center">
